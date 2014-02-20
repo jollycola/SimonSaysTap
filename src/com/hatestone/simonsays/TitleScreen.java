@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class TitleScreen implements Screen{
 	
@@ -20,18 +21,24 @@ public class TitleScreen implements Screen{
 	float titleY;
 	float time = 0;
 	boolean pointerOverStart;
+	TextButton Settings;
 
 	public TitleScreen(SimonSays game){
 		this.game = game;
-		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, 1080, 1920);
 		
 		batch = new SpriteBatch();
 		touch = new Vector3();
 		pointer = new Vector3();
+
+		Vars.button();
+		placeButton(Vars.button, 540, 900);
+		Settings = new TextButton("SETTINGS", Vars.buttonStyle);
+		placeButton(Settings, 540, 900+300);
 		
 		titleY = 320;
+		
 	}
 
 	@Override
@@ -46,16 +53,18 @@ public class TitleScreen implements Screen{
 		bounce(deltaTime);
 		
 		batch.setProjectionMatrix(camera.combined);
+		Vars.stage.setCamera(camera);
 		
 		batch.begin();
 			batch.draw(Assets.spr_bg, 0, 0);
-			if(!startbuttonPressed){
-				batch.draw(Assets.spr_startbutton, 540-Assets.spr_startbutton.getWidth()/2, 960-Assets.spr_startbutton.getHeight()/2);
-			} else {
-				batch.draw(Assets.spr_startbutton_pressed, 540-Assets.spr_startbutton_pressed.getWidth()/2, 960-Assets.spr_startbutton_pressed.getHeight()/2);
-			}
+//			if(!startbuttonPressed){
+//				batch.draw(Assets.spr_startbutton, 540-Assets.spr_startbutton.getWidth()/2, 960-Assets.spr_startbutton.getHeight()/2);
+//			} else {
+//				batch.draw(Assets.spr_startbutton_pressed, 540-Assets.spr_startbutton_pressed.getWidth()/2, 960-Assets.spr_startbutton_pressed.getHeight()/2);
+//			}
 			batch.draw(Assets.spr_title, 540-Assets.spr_title.getWidth()/2, titleY-Assets.spr_title.getHeight()/2);
 			Assets.font_small.draw(batch, "(c) HateStone Games", 540-Assets.font_small.getBounds("(c) HateStone Games").width/2, 1920-64-Assets.font_small.getBounds("(c) HateStone Games").height/2);
+			Vars.stage.draw();
 		batch.end();
 	}
 
@@ -65,10 +74,10 @@ public class TitleScreen implements Screen{
 			touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touch);
 			
-			if (touch.x >= 540-Assets.spr_startbutton.getWidth()/2 && touch.x <= 540+Assets.spr_startbutton.getWidth()/2 && touch.y >= 960-Assets.spr_startbutton.getHeight()/2 && touch.y <= 960+Assets.spr_startbutton.getHeight()/2){
-				justTouched = true;
-				startbuttonPressed = true;
-			}
+//			if (touch.x >= 540-Assets.spr_startbutton.getWidth()/2 && touch.x <= 540+Assets.spr_startbutton.getWidth()/2 && touch.y >= 960-Assets.spr_startbutton.getHeight()/2 && touch.y <= 960+Assets.spr_startbutton.getHeight()/2){
+//				justTouched = true;
+//				startbuttonPressed = true;
+//			}
 		}
 		
 		if(!Gdx.input.isTouched() && justTouched){
@@ -88,6 +97,15 @@ public class TitleScreen implements Screen{
 		if (time > 2){
 			time = time -2;
 		}
+	}
+	
+	public static void loadButton(){
+	}
+	
+	public static void placeButton(TextButton name, int x, int y){
+		Vars.stage.addActor(name);
+		name.setY(y-name.getHeight()/2);
+		name.setX(x-name.getWidth()/2);
 	}
 	
 	@Override

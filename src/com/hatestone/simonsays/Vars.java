@@ -2,6 +2,14 @@ package com.hatestone.simonsays;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+
 
 public class Vars {
 	
@@ -19,6 +27,12 @@ public class Vars {
 	public static boolean countdownClosed;
 	public static boolean action;
 	public static boolean countdownGo;
+	public static Stage stage;
+	public static TextureAtlas buttonAtlas;
+	public static TextButtonStyle buttonStyle;
+	public static TextButton button;
+	public static Skin skin;
+
 	
 	public static void initialize(){
 		points = new int[2];
@@ -42,6 +56,21 @@ public class Vars {
 	public static void getType(){
 		Random r = new Random();
 		type = r.nextInt(2)+1;
+	}
+	
+	public static void button(){
+		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		
+		skin = new Skin();
+		buttonAtlas = new TextureAtlas("buttons/button.pack");
+		skin.addRegions(buttonAtlas);
+		buttonStyle = new TextButtonStyle();
+		buttonStyle.up = skin.getDrawable("button");
+		buttonStyle.down =  skin.getDrawable("button_pressed");
+		buttonStyle.font = Assets.font_button;
+		button = new TextButton("START GAME", buttonStyle);
+		Gdx.input.setInputProcessor(stage);
+
 	}
 	
 }

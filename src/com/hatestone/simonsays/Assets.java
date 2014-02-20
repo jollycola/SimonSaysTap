@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class Assets {
 	//FONT
@@ -15,6 +16,7 @@ public class Assets {
 	public static BitmapFont scoreFont;
 	public static BitmapFont fscoreFont;
 	public static BitmapFont font_small;
+	public static BitmapFont font_button;
 	//BACKGROUND
 	public static Texture texture_bg;
 	public static Sprite spr_bg;
@@ -66,6 +68,12 @@ public class Assets {
 		font_small.setColor(Color.WHITE);
 		font_small.setScale(1, -1);
 		
+		//BUTTON-FONT
+		font_button = gen.generateFont(100);
+		font_button.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		font_button.setColor(Color.BLACK);
+		font_button.setScale(1, -1);
+		
 		//BACKGROUND
 		texture_bg = new Texture(Gdx.files.internal("back.png"));
 		texture_bg.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -108,6 +116,5 @@ public class Assets {
 		spr_title = new Sprite(t_title);
 		spr_title.flip(false, true);
 	}
-	
 	
 }
