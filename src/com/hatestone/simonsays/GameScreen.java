@@ -17,7 +17,7 @@ public class GameScreen implements Screen{
 	float time = 0;
 	float deltaTime;
 	float countdownTime;
-	
+	float nextRoundTime = 0;
 
 	public GameScreen(SimonSays game){
 		this.game = game;
@@ -47,8 +47,8 @@ public class GameScreen implements Screen{
 		
 		batch.begin();
 			batch.draw(Assets.spr_bg, 0, 0);
-			batch.draw(Assets.spr_player1, 0, 1280);
-			batch.draw(Assets.spr_player2, 0, 0);
+			Draw.player(0, 0, 1280);
+			Draw.player(1, 0, 0);
 			Assets.scoreFont.draw(batch, ""+Vars.points[0], 540 - (Assets.scoreFont.getBounds( ""+Vars.points[0]).width/2), 1920-60+Assets.scoreFont.getBounds( ""+Vars.points[0]).height/2);
 			Assets.fscoreFont.draw(batch, ""+Vars.points[1], 540 - (Assets.fscoreFont.getBounds( ""+Vars.points[1]).width/2), 0+60+Assets.fscoreFont.getBounds( ""+Vars.points[1]).height/2);
 			switch(Vars.text){
@@ -70,40 +70,52 @@ public class GameScreen implements Screen{
 			camera.unproject(touch);
 			camera.unproject(pointer);
 			
-			if (touch.x >= 0 && touch.x <= 1080 && touch.y >= 0 && touch.y <= 640){
-				Winner.getWinner(1);
+			if (touch.x >= 0 && touch.x <= 1080 && touch.y >= 1280 && touch.y <= 1920 && Vars.firstPressFreeze == false){
+				System.out.println("PLAYER 1 CLICKED");
+				Winner.getWinner(0);
+				Gdx.input.vibrate(400);
+				Vars.nextRound = true;
+				Vars.pauseWhileWaiting();
 			}
-			if (touch.x >= 0 && touch.x <= 1080 && touch.y >= 1280 && touch.y <= 1920){
-				Winner.getWinner(2);
+			if (touch.x >= 0 && touch.x <= 1080 && touch.y >= 0 && touch.y <= 640 && Vars.firstPressFreeze == false){
+				System.out.println("PLAYER 2 CLICKED");
+				Winner.getWinner(1);
+				Gdx.input.vibrate(400);
+				Vars.nextRound = true;
+				Vars.pauseWhileWaiting();
 			}
 		}
-		
-		
 		
 		if(Vars.action){
 			time += deltaTime;
 		    if (time >= Vars.randomTime) {
 		    	
-		        switch(Vars.type){
-		        case 1: Vars.open = true;
-		        		Vars.text = 1;
-		        		break;
-		        case 2: Vars.open = false;
-		        		Vars.text = 2;
-		        		break;
-		        }
-
+		    	for(int i=1; i<=2; i++){
+		    		if(Vars.type == i){
+		    			Vars.text = i;
+		    			break;
+		    		}
+		    	}
+		    	if(Vars.type == 1){
+		    		Vars.open = true;
+		    	}
 		        time -= Vars.randomTime;
 		    }
 		}
-		
+		if(Vars.nextRound){
+			nextRoundTime += deltaTime;
+			if(nextRoundTime >= 2){
+				Vars.nextRound();
+				nextRoundTime = 0;
+			}
+		}
 		
 	}
 	
 	public void countdown(float deltaTime){
+		if (Vars.countdownClosed == false){
 			countdownTime += deltaTime;
-			
-			if(countdownTime <= 3 && Vars.countdownClosed == false){
+			if(countdownTime <= 3){
 				if (countdownTime <=1){
 					Vars.countdownNumbers = 3;				
 				} else if(countdownTime <=2 && countdownTime > 1){
@@ -119,7 +131,12 @@ public class GameScreen implements Screen{
 					Vars.action = true;
 					Vars.countdownNumbers = 0;
 				} 
+		}else{
+			countdownTime = 0;
+			Vars.countdownNumbers = 0;
+			Vars.countdownClosed = true;
 		}
+	}
 		
 
 	@Override

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class Assets {
 	//FONT
@@ -20,16 +19,12 @@ public class Assets {
 	//BACKGROUND
 	public static Texture texture_bg;
 	public static Sprite spr_bg;
-	//PLAYER1
+	//PLAYERs
 	public static Texture texture_player1;
-	public static Sprite spr_player1;
-	public static Sprite spr_player1_red;
-	public static Sprite spr_player1_green;
-	//PLAYER2
 	public static Texture texture_player2;
-	public static Sprite spr_player2;
-	public static Sprite spr_player2_red;
-	public static Sprite spr_player2_green;
+	public static Sprite[] spr_player;
+	public static Sprite[] spr_player_red;
+	public static Sprite[] spr_player_green;
 	//STARTBUTTON
 	public static Texture texture_startbutton;
 	public static Sprite spr_startbutton;
@@ -40,6 +35,9 @@ public class Assets {
 	public static Sprite spr_title;
 	
 	public static void load(){
+		spr_player = new Sprite[2];
+		spr_player_red = new Sprite[2];
+		spr_player_green = new Sprite[2];
 		
 		//FONT
 		FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
@@ -71,7 +69,7 @@ public class Assets {
 		//BUTTON-FONT
 		font_button = gen.generateFont(100);
 		font_button.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		font_button.setColor(Color.BLACK);
+		font_button.setColor(Color.WHITE);
 		font_button.setScale(1, -1);
 		
 		//BACKGROUND
@@ -83,22 +81,22 @@ public class Assets {
 		//PLAYER 1
 		texture_player1 = new Texture(Gdx.files.internal("players/Player1_sheet.png"));
 		texture_player1.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		spr_player1 = new Sprite(texture_player1, 0, 0, 1080, 640);
-		spr_player1_red = new Sprite(texture_player1, 0, 640, 1080, 640);
-		spr_player1_green = new Sprite(texture_player1, 0, 1280, 1080, 640);
-		spr_player1.flip(false, true);
-		spr_player1_red.flip(false, true);
-		spr_player1_green.flip(false, true);
+		spr_player[0] = new Sprite(texture_player1, 0, 0, 1080, 640);
+		spr_player_red[0] = new Sprite(texture_player1, 0, 640, 1080, 640);
+		spr_player_green[0] = new Sprite(texture_player1, 0, 1280, 1080, 640);
+		spr_player[0].flip(false, true);
+		spr_player_red[0].flip(false, true);
+		spr_player_green[0].flip(false, true);
 		
 		//PLAYER 2
 		texture_player2 = new Texture(Gdx.files.internal("players/Player2_sheet.png"));
 		texture_player2.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		spr_player2 = new Sprite(texture_player2, 0, 0, 1080, 640);
-		spr_player2_red = new Sprite(texture_player2, 0, 640, 1080, 640);
-		spr_player2_green = new Sprite(texture_player2, 0, 1280, 1080, 640);
-		spr_player2.flip(false, true);
-		spr_player2_red.flip(false, true);
-		spr_player2_green.flip(false, true);
+		spr_player[1] = new Sprite(texture_player2, 0, 0, 1080, 640);
+		spr_player_red[1] = new Sprite(texture_player2, 0, 640, 1080, 640);
+		spr_player_green[1] = new Sprite(texture_player2, 0, 1280, 1080, 640);
+		spr_player[1].flip(false, true);
+		spr_player_red[1].flip(false, true);
+		spr_player_green[1].flip(false, true);
 		
 		//STARTBUTTON
 		texture_startbutton = new Texture(Gdx.files.internal("titlescreen/Startbutton.png"));

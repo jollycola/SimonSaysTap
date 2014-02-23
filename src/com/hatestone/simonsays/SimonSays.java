@@ -9,6 +9,7 @@ public class SimonSays extends Game{
 	public static TitleScreen title_screen;
 	public TextButton name;
 
+
 	@Override
 	public void create() {
 		Assets.load();
@@ -19,7 +20,7 @@ public class SimonSays extends Game{
 		game_screen = new GameScreen(this);
 		title_screen = new TitleScreen(this);
 		
-		setScreen(title_screen);		
+		setScreen(title_screen);
 	}
 	
 }
